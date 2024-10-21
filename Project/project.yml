@@ -1,0 +1,87 @@
+# https://github.com/yonaskolb/XcodeGen/blob/master/Docs/ProjectSpec.md
+# https://help.apple.com/xcode/mac/9.0/index.html?localePath=en.lproj#/dev7fe737ce0
+
+# 项目名
+name: ProjectName
+attributes:
+  ORGANIZATIONNAME: moon
+targets:
+  ProjectName:
+    scheme:
+      buildImplicitDependencies: true
+    type: application
+    platform: [iOS]
+    # 必须指明，否则会多出"_iOS"
+    platformSuffix: ""
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: org.moon.projectName
+        IPHONEOS_DEPLOYMENT_TARGET: 12.0
+        SWIFT_VERSION: 5.0
+        TARGETED_DEVICE_FAMILY: 1  # iPhone
+        GENERATE_INFOPLIST_FILE: false
+        # INFOPLIST_FILE: Resources/info.plist
+        EXCLUDED_ARCHS[sdk=iphonesimulator*]: arm64
+        UILaunchStoryboardName: LaunchScreen
+        MARKETING_VERSION: 0.0.1
+        CURRENT_PROJECT_VERSION: 1
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        SWIFT_OBJC_BRIDGING_HEADER: $(SRCROOT)/Codes/Bridging-Header.h
+        FRAMEWORK_SEARCH_PATHS:
+          - $(inherited)
+          - $(PODS_CONFIGURATION_BUILD_DIR)/Project
+        LIBRARY_SEARCH_PATHS:
+          - $(inherited)
+        # Ensure COCOAPODS macro exist
+        OTHER_SWIFT_FLAGS:
+          - "$(inherited) -D COCOAPODS"
+        # [Fix Xcode 15 Warning: Mixed ObjC ABI](https://stackoverflow.com/questions/77200555)
+        OTHER_LDFLAGS:
+          - "$(inherited) -ld_classic"
+        ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES: $(inherited)
+        ENABLE_BITCODE: false
+        WARNING_CFLAGS:
+        - -Wno-documentation
+        - -Wno-unguarded-availability
+        - -Wno-strict-prototypes
+        - -Wno-implicit-retain-self
+      # Ensure DEBUG macro exist
+      debug:
+        GCC_PREPROCESSOR_DEFINITIONS:
+          - $(inherited)
+          - DEBUG=1
+          - COCOAPODS=1
+      release:
+        GCC_PREPROCESSOR_DEFINITIONS:
+          - $(inherited)
+          - COCOAPODS=1
+    sources:
+      - "Codes"
+      - "Resources"
+    info:
+      path: Resources/info.plist
+      properties:
+        CFBundleAllowMixedLocalizations: true
+        CFBundleDevelopmentRegion: zh_CN
+        CFBundleDisplayName: Sockets
+        CFBundleExecutable: $(EXECUTABLE_NAME)
+        CFBundleIdentifier: $(PRODUCT_BUNDLE_IDENTIFIER)
+        CFBundleInfoDictionaryVersion: 6.0
+        CFBundleName: $(PRODUCT_NAME)
+        CFBundlePackageType: APPL
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: 1
+        ITSAppUsesNonExemptEncryption: false
+        LSRequiresIPhoneOS: true
+        NSAppTransportSecurity:
+          NSAllowsArbitraryLoads: true
+        NSCameraUsageDescription: "如果不允许，您将无法拍摄小视频和照片"
+        NSMicrophoneUsageDescription: "如果不允许，您将无法使用语音功能"
+        NSPhotoLibraryAddUsageDescription: "如果不允许，您选中的图片将无法加入到系统相册"
+        NSPhotoLibraryUsageDescription: "如果不允许，您将无法访问系统相册里的图片"
+        UILaunchStoryboardName: LaunchScreen.storyboard
+        UIStatusBarStyle: UIStatusBarStyleDarkContent
+        # UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]
+        # UIUserInterfaceStyle: Light
+        # FIX: ITMS-90899
+        LSMinimumSystemVersion: 12.0

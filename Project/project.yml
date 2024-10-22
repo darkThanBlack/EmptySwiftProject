@@ -70,7 +70,7 @@ targets:
         CFBundleName: $(PRODUCT_NAME)
         CFBundlePackageType: APPL
         CFBundleShortVersionString: $(MARKETING_VERSION)
-        CFBundleVersion: 1
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
         ITSAppUsesNonExemptEncryption: false
         LSRequiresIPhoneOS: true
         NSAppTransportSecurity:
